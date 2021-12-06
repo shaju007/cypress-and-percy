@@ -26,10 +26,10 @@ ul {
 
 /* Nav */
 .fas.fa-shopping-cart{
-  color: red;
+  color: pink;
 }
 .fas.fa-search{
-  color: blue;
+  color: orange;
 }
 .main-nav {
   display: flex;
