@@ -25,6 +25,12 @@ ul {
 }
 
 /* Nav */
+.fas.fa-shopping-cart{
+  color: red;
+}
+.fas.fa-search{
+  color: blue;
+}
 .main-nav {
   display: flex;
   justify-content: space-between;

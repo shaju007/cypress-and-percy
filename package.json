@@ -4,7 +4,8 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cypress open",
+    "serve": "serve -p 8080"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,11 @@
   },
   "homepage": "https://github.com/shaju007/cypress-and-percy#readme",
   "devDependencies": {
+    "@percy/cli": "^1.0.0-beta.71",
+    "@percy/cypress": "^3.1.1",
     "cypress": "^9.1.1"
+  },
+  "dependencies": {
+    "serve": "^13.0.2"
   }
 }
