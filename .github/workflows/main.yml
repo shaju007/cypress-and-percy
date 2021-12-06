@@ -21,7 +21,9 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-        
+      
+      - name: install npm
+        run: npm i
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
