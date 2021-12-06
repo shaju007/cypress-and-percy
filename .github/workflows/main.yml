@@ -14,24 +14,37 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  job1:
+    name: get all spec files
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      
-      - name: install npm
-        run: npm i
+      - id: set-matrix
+        run: echo "::set-output name=matrix::$(find cypress/integration -type f -name "*.spec.js" | xargs -n2 | tr ' ' ',' | jq -R . | jq -s -cM .)"
+
+  cypress-run:
+    needs: job1
+    runs-on: ubuntu-latest
+    container: cypress/included:8.0.0 # this line specifies the docker image we want
+    strategy:
+      max-parallel: 2
+      fail-fast: false
+      matrix:
+        containers: ${{fromJson(needs.job1.outputs.matrix)}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          spec: cypress/integration/index-page.spec.js
+          spec: ${{matrix.containers}}
           start: npm start
-      - name : run percy
-        run: npx percy exec -- cypress run
-
-
+      - uses: actions/upload-artifact@v1
+        if: always() # / if: failure() <- more suitable for production
+        with:
+          name: cypress-videos
+          path: cypress/videos
