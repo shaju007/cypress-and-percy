@@ -26,6 +26,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           spec: cypress/integration/index-page.spec.js
-          start: npx percy exec -- cypress run
+          start: npm start
+          run: npx percy exec -- cypress run
 
 
