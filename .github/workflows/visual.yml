@@ -9,7 +9,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          start: npm start
+          start: npm run start
           # quote the url to be safe against YML parsing surprises
           wait-on: 'http://localhost:8080'
           # the entire command will automatically be prefixed with "npm"
